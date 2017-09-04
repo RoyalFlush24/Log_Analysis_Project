@@ -1,18 +1,18 @@
 import psycopg2
 
-# What are the most popular three articles of all time?
+# 1. What are the most popular three articles of all time?
 query1_title = ("What are the most popular three articles of all time?")
 query1 = ("select articles.title, count(*) as views from articles join log on log.path like concat "
           "('%', articles.slug, '%') where log.status like '%200%' group by articles.title, "
           "log.path order by views desc limit 3")
 
-# Who are the most popular article authors of all time?
+# 2. Who are the most popular article authors of all time?
 query2_title = ("Who are the most popular article authors of all time?")
 query2 = ("select authors.name, count(*) as views from articles join authors on articles.author = authors.id "
           "join log on log.path like concat('%', articles.slug, '%') where log.status like '%200%' group "
           "by authors.name order by views desc")
 
-# On which days did more than 1% of requests lead to errors
+# 3. On which days did more than 1% of requests lead to errors
 query3_title = ("On which days did more than 1% of requests lead to errors?")
 query3 = ("select day, perc from (""select day, round((sum(requests)/(select count(*) from log where "
           "substring(cast(log.time as text), 0, 11) = day) * 100), 2) as perc from (select substring(cast(log.time as text), 0, 11) as day, "
