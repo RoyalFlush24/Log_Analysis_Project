@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import psycopg2
 
 # What are the most popular three articles of all time?
